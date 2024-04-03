@@ -41,11 +41,7 @@
         </nav>
         <!-- navbar end -->
         <div class="text-hero p-5 m-5 text-center text-light">
-            <h1>Apa itu Tugasqw??</h1>
-            <p>Tugasqw adalah sebuah website untuk mengelola tugas-tugas Anda, dibuat dengan menggunakan PHP dan
-                database MySql, yang akan memberikan Anda pengalaman yang lebih baik dalam mencatat tugas-tugas Anda.
-            </p>
-            <a href="tugasqw.php" class="text-dark p-3 rounded-5 bg-light link-opacity-0">Coba Sekarang</a>
+
         </div>
     </div>
     <!-- hero end -->
