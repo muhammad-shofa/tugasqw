@@ -19,14 +19,12 @@
         <?php include "layout/navbar.php" ?>
         <!-- navbar end -->
         <div class="text-hero p-5 m-5 text-center text-light">
-            <h1>Apa itu Tugasqw??</h1>
-            <p class="fs-5 mb-5">Tugasqw adalah sebuah website untuk mengelola tugas-tugas Anda, dibuat dengan
-                menggunakan PHP dan
-                database MySql, yang akan memberikan Anda pengalaman yang lebih baik dalam mencatat tugas-tugas
-                Anda.
+            <h1>What Is Tugasqw??</h1>
+            <p class="fs-5 mb-5">With Tugasqw, you not only manage your tasks, but also take back control of your life.
+                From daily tasks to big dreams, we ensure that you no longer feel drowned in endless lists.
             </p>
-            <a href="tugasqw.php" class="cta-light p-3 rounded-5 link-underline link-underline-opacity-0">Coba
-                Sekarang</a>
+            <a href="todolist.php" class="cta-light p-3 rounded-5 link-underline link-underline-opacity-0">Try It
+                Now</a>
         </div>
     </div>
     <!-- hero end -->

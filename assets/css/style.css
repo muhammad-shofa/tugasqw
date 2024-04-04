@@ -7,9 +7,23 @@
 :root {
   --primary: #f7f8f9;
   --secondary: #484848;
+  --accent-blue: #279eff;
 }
 
 /* hero */
+.todolist-hero {
+  height: 100vh;
+  background-color: var(--primary);
+}
+
+h4 {
+  width: max-content;
+  color: var(--primary);
+  background-color: var(--accent-blue);
+  padding: 5px 7px;
+  border-radius: 10px;
+}
+
 .hero {
   height: 100vh;
   background-image: url("../img/book-and-pen-dark.jpg");
@@ -17,7 +31,7 @@
   background-repeat: no-repeat;
 }
 
-.text-hero .cta-light {
+.cta-light {
   background-color: var(--primary);
   color: var(--secondary);
   transition: all 0.3s ease-in-out;
@@ -26,4 +40,27 @@
 .cta-light:hover {
   background-color: var(--secondary);
   color: var(--primary);
+}
+
+.card-task {
+  min-width: 250px;
+  max-width: 400px;
+  min-height: 250px;
+}
+.card-task p {
+  color: var(--accent-blue);
+}
+.add-task {
+  text-decoration: none;
+}
+.add-task:hover {
+  cursor: pointer;
+}
+.add-task img {
+  width: 24px;
+  height: 24px;
+}
+.list-task img {
+  width: 15px;
+  height: 15px;
 }
