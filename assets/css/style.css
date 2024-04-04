@@ -4,10 +4,26 @@
   box-sizing: border-box;
 }
 
+:root {
+  --primary: #f7f8f9;
+  --secondary: #484848;
+}
+
 /* hero */
 .hero {
   height: 100vh;
   background-image: url("../img/book-and-pen-dark.jpg");
   background-size: cover;
   background-repeat: no-repeat;
+}
+
+.text-hero .cta-light {
+  background-color: var(--primary);
+  color: var(--secondary);
+  transition: all 0.3s ease-in-out;
+}
+
+.cta-light:hover {
+  background-color: var(--secondary);
+  color: var(--primary);
 }

@@ -16,36 +16,17 @@
     <!-- hero start -->
     <div class="hero p-2" id="hero">
         <!-- navbar start -->
-        <nav class="navbar navbar-expand-lg bg-body-tertiary p-2 rounded-5">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">Navbar</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Features</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Pricing</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <?php include "layout/navbar.php" ?>
         <!-- navbar end -->
         <div class="text-hero p-5 m-5 text-center text-light">
             <h1>Apa itu Tugasqw??</h1>
-            <p>Tugasqw adalah sebuah website untuk mengelola tugas-tugas Anda, dibuat dengan menggunakan PHP dan
-                database MySql, yang akan memberikan Anda pengalaman yang lebih baik dalam mencatat tugas-tugas Anda.
+            <p class="fs-5 mb-5">Tugasqw adalah sebuah website untuk mengelola tugas-tugas Anda, dibuat dengan
+                menggunakan PHP dan
+                database MySql, yang akan memberikan Anda pengalaman yang lebih baik dalam mencatat tugas-tugas
+                Anda.
             </p>
-            <a href="tugasqw.php" class="text-dark p-3 rounded-5 bg-light link-opacity-0">Coba Sekarang</a>
+            <a href="tugasqw.php" class="cta-light p-3 rounded-5 link-underline link-underline-opacity-0">Coba
+                Sekarang</a>
         </div>
     </div>
     <!-- hero end -->
