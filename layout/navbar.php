@@ -15,8 +15,8 @@
                 </li>
             </ul>
             <span class="navbar-text d-flex gap-2 justify-content-center align-items-center">
-                <a class="nav-link p-2 rounded border bg-primary text-light" href="login.php">Sign in</a>
-                <a class="nav-link" href="register.php">Sign Up</a>
+                <a class="nav-link p-2 rounded border bg-primary text-light" href="signin.php">Sign in</a>
+                <a class="nav-link" href="signup.php">Sign Up</a>
             </span>
         </div>
     </div>

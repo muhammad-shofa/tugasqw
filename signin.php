@@ -1,31 +1,33 @@
 <?php
 
 include "service/connection.php";
-include "service/insert.php";
+include "service/select.php";
 
 $status_signup = "";
 
 // check login
 isset($_SESSION['is_login']) ? header("location: index.php") : "";
 
-// insert data register
-if (isset($_POST["sign-up"])) {
-    $username = htmlspecialchars($_POST["username"]);
-    $password = htmlspecialchars($_POST["password"]);
-    $name = htmlspecialchars($_POST["name"]);
-    $email = htmlspecialchars($_POST["email"]);
-    $gender = htmlspecialchars($_POST["gender"]);
+if (isset($_POST['sign-in'])) {
+    $username = htmlspecialchars($_POST['username']);
+    $password = htmlspecialchars($_POST['password']);
 
     $hash_password = hash('sha256', $password);
 
-    $sql_signup = $insert->selectTable($table_name = "users", $condition = "(username, password, name, email, gender) VALUES ('$username', '$hash_password', '$name', '$email', '$gender')");
-    $result = $connected->query($sql_signup);
-    if ($result) {
-        $status_signup = "<b>successfully, please <a href='login.php'>Sign In!</a></b>";
+    $sql_signin = $select->selectTable($table_name = "users", $fields = '*', $condition = "WHERE username='$username' AND password='$hash_password'");
+    $result = $connected->query($sql_signin);
+    if ($result->num_rows > 0) {
+        $data_user = $result->fetch_assoc();
+        $_SESSION["username"] = $data_user["username"];
+        $_SESSION['is_login'] = true;
+        header("location: todolist.php");
+    } else {
+        $status_signup = "Pastikan anda memasukkan username dan password yang benar!";
     }
 }
 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -51,12 +53,9 @@ if (isset($_POST["sign-up"])) {
         <div class="container-register mx-auto my-3 rounded-3 shadow">
             <!-- form register start -->
             <div class="card-body px-4 py-5 px-md-5">
-                <h2 class="text-center p-3">Sign Up <b class="text-primary">Tugasqw</b></h2>
-                <p class="text-center fw-bold">Sign up to access all features</p>
-                <p>
-                    <?= $status_signup ?>
-                </p>
-                <form action="register.php" method="POST">
+                <h2 class="text-center p-3">Sign In <b class="text-primary">Tugasqw</b></h2>
+                <p class="text-center fw-bold">Sign in</p>
+                <form action="<?php $_SERVER['PHP_SELF'] ?>" method="POST">
                     <!-- Username input -->
                     <div class="form-outline mb-4">
                         <input type="text" name="username" id="username" class="form-control" />
@@ -69,30 +68,6 @@ if (isset($_POST["sign-up"])) {
                         <label class="form-label" for="password">Password</label>
                     </div>
 
-                    <!-- Name input -->
-                    <div class="form-outline mb-4">
-                        <div class="form-outline">
-                            <input type="text" name="name" id="name" class="form-control" />
-                            <label class="form-label" for="name">Your name</label>
-                        </div>
-                    </div>
-
-                    <!-- Email input -->
-                    <div class="form-outline mb-4">
-                        <input type="email" name="email" id="email" class="form-control" />
-                        <label class="form-label" for="email">Email address</label>
-                    </div>
-
-                    <!-- Gender input -->
-                    <div class="form-outline mb-4">
-                        <label class="form-label" for="gender">Gender</label>
-                        <select name="gender" id="gender" class="form-select">
-                            <option selected>Select one</option>
-                            <option value="Male">Male</option>
-                            <option value="Famale">Famale</option>
-                        </select>
-                    </div>
-
                     <!-- Terms and Condition -->
                     <div class="mb-3 form-check">
                         <input type="checkbox" class="form-check-input" id="exampleCheck1">
@@ -101,12 +76,12 @@ if (isset($_POST["sign-up"])) {
                     </div>
 
                     <!-- Submit button -->
-                    <button type="submit" name="sign-up" class="btn btn-primary btn-block mb-4">
-                        Sign up
+                    <button type="submit" name="sign-in" class="btn btn-primary btn-block mb-4">
+                        Sign in
                     </button>
 
                     <div class="text-center">
-                        <p>Already have an Account? <a href="login.php">Sign In!</a></p>
+                        <p>Don't have an account yet? <a href="signup.php">Sign Up!</a></p>
                     </div>
                 </form>
             </div>
