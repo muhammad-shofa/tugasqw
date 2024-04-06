@@ -1,3 +1,10 @@
+<?php
+if (isset($_POST['logout'])) {
+    session_unset();
+    session_destroy();
+    header("location: index.php");
+}
+?>
 <nav class="navbar navbar-expand-lg bg-body-tertiary p-2 rounded-5 shadow">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">Tugasqw</a>
@@ -15,8 +22,19 @@
                 </li>
             </ul>
             <span class="navbar-text d-flex gap-2 justify-content-center align-items-center">
-                <a class="nav-link p-2 rounded border bg-primary text-light" href="signin.php">Sign in</a>
-                <a class="nav-link" href="signup.php">Sign Up</a>
+                <?php
+                $islogin = isset($_SESSION['is_login']);
+                if (!$islogin) { ?>
+                    <a class="nav-link p-2 rounded border bg-primary text-light" href="signin.php">Sign in</a>
+                    <a class="nav-link" href="signup.php">Sign Up</a>
+                <?php } else { ?>
+                    <form action="<?php $_SERVER['PHP_SELF'] ?>" method="POST">
+                        <button type="submit" name="logout" class="btn p-0">
+                            <img class="p-2 bg-danger rounded" src="./assets/icon/right-from-bracket-solid.svg"
+                                alt="logout icon" width="30px" height="30px">
+                        </button>
+                    </form>
+                <?php } ?>
             </span>
         </div>
     </div>

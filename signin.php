@@ -2,12 +2,14 @@
 
 include "service/connection.php";
 include "service/select.php";
+session_start();
 
 $status_signup = "";
 
 // check login
 isset($_SESSION['is_login']) ? header("location: index.php") : "";
 
+// matching data
 if (isset($_POST['sign-in'])) {
     $username = htmlspecialchars($_POST['username']);
     $password = htmlspecialchars($_POST['password']);
@@ -54,7 +56,7 @@ if (isset($_POST['sign-in'])) {
             <!-- form register start -->
             <div class="card-body px-4 py-5 px-md-5">
                 <h2 class="text-center p-3">Sign In <b class="text-primary">Tugasqw</b></h2>
-                <p class="text-center fw-bold">Sign in</p>
+                <p class="text-center fw-bold">Sign in for a better experience</p>
                 <form action="<?php $_SERVER['PHP_SELF'] ?>" method="POST">
                     <!-- Username input -->
                     <div class="form-outline mb-4">
