@@ -21,7 +21,7 @@ h4 {
   color: var(--primary);
   background-color: var(--accent-blue);
   padding: 5px 7px;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 .hero {
@@ -63,4 +63,8 @@ h4 {
 .list-task img {
   width: 15px;
   height: 15px;
+}
+/* register.php */
+.container-register {
+  max-width: 600px;
 }

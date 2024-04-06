@@ -1,28 +1,27 @@
 <?php
 
 include "service/connection.php";
-// include "service/insert.php";
+include "service/insert.php";
 
-$status_register = "";
+$status_signup = "";
 
 // check login
 isset($_SESSION['is_login']) ? header("location: index.php") : "";
 
 // insert data register
-if (isset($_POST["regis"])) {
+if (isset($_POST["sign-up"])) {
     $username = htmlspecialchars($_POST["username"]);
     $password = htmlspecialchars($_POST["password"]);
-    $nama_lengkap = htmlspecialchars($_POST["nama_lengkap"]);
+    $name = htmlspecialchars($_POST["name"]);
     $email = htmlspecialchars($_POST["email"]);
-    $tanggal_lahir = htmlspecialchars($_POST["tanggal_lahir"]);
-    $jenis_kelamin = htmlspecialchars($_POST["jenis_kelamin"]);
+    $gender = htmlspecialchars($_POST["gender"]);
 
     $hash_password = hash('sha256', $password);
 
-    $sql_regis = $insert->selectTable($table_name = "users", $condition = "(username, password, nama_lengkap, email, tanggal_lahir, jenis_kelamin) VALUES ('$username', '$hash_password', '$nama_lengkap', '$email', '$tanggal_lahir', '$jenis_kelamin')");
-    $result = $connected->query($sql_regis);
+    $sql_signup = $insert->selectTable($table_name = "users", $condition = "(username, password, name, email, gender) VALUES ('$username', '$hash_password', '$name', '$email', '$gender')");
+    $result = $connected->query($sql_signup);
     if ($result) {
-        $status_register = "<b>Berhasil mendaftar, silahkan <a href='login.php'>Login!</a></b>";
+        $status_signup = "<b>successfully, please <a href='login.php'>Sign In!</a></b>";
     }
 }
 
@@ -48,74 +47,72 @@ if (isset($_POST["regis"])) {
         <!-- navbar start -->
         <?php include "layout/navbar.php" ?>
         <!-- navbar end -->
-        <div class="container-task p-5 mx-auto my-3 d-flex justify-content-center rounded-3 shadow">
+        <!-- container register start -->
+        <div class="container-register mx-auto my-3 rounded-3 shadow">
             <!-- form register start -->
-            <form action="register.php" method="POST" class="my-5" style="padding-top: 6px;">
-                <div class="border rounded-2 p-4 mt-5 bg-light">
-                    <div class="login-form">
-                        <a href="index.php" class="mb-4 d-flex">
-                            Tugasqw
-                        </a>
-                        <h5 class="fw-bold mb-3">Register for access all feature.</h5>
-                        <p class="text-success">
-                            <?= $status_register ?>
-                        </p>
-                        <div class="mb-3">
-                            <label class="form-label" for="username">Username</label>
-                            <input type="text" name="username" id="username" class="form-control"
-                                placeholder="Masukkan username" required />
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="password">Password</label>
-                            <input type="password" name="password" id="password" class="form-control"
-                                placeholder="Masukkan password" required />
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="nama_lengkap">Nama Lengkap</label>
-                            <input type="text" name="nama_lengkap" id="nama_lengkap" class="form-control"
-                                placeholder="Masukkan nama lengkap" required />
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="email">Email</label>
-                            <input type="email" name="email" id="email" class="form-control"
-                                placeholder="Masukkan email" required />
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="tanggal_lahir">Tanggal Lahir</label>
-                            <input type="date" name="tanggal_lahir" id="tanggal_lahir" class="form-control" required />
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="jenis_kelamin">Jenis Kelamin</label>
-                            <select name="jenis_kelamin" id="jenis_kelamin" class="form-select"
-                                aria-label="Default select example">
-                                <option value="Laki-Laki">Laki - Laki</option>
-                                <option value="Perempuan">Perempuan</option>
-                            </select>
-                        </div>
+            <div class="card-body px-4 py-5 px-md-5">
+                <h2 class="text-center p-3">Sign Up <b class="text-primary">Tugasqw</b></h2>
+                <p class="text-center fw-bold">Sign up to access all features</p>
+                <p>
+                    <?= $status_signup ?>
+                </p>
+                <form action="register.php" method="POST">
+                    <!-- Username input -->
+                    <div class="form-outline mb-4">
+                        <input type="text" name="username" id="username" class="form-control" />
+                        <label class="form-label" for="username">Username</label>
+                    </div>
 
-                        <div class="d-flex align-items-center justify-content-between mt-3">
-                            <div class="form-check m-0">
-                                <input class="form-check-input" type="checkbox" id="s&k" required />
-                                <label class="form-check-label" for="s&k">Saya menyetujui <a href="pages/s&k.php">syarat
-                                        dan ketentuan</a></label>
-                            </div>
-                        </div>
-                        <div class="d-grid py-3 mt-3">
-                            <button type="submit" name="daftar" class="btn btn-lg btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#exampleModalCenter">
-                                Daftar
-                            </button>
-                        </div>
-                        <div class="text-center pt-4">
-                            <span>Sudah memiliki akun?</span>
-                            <a href="login.php" class="text-blue text-decoration-underline ms-2">
-                                Masuk</a>
+                    <!-- Password input -->
+                    <div class="form-outline mb-4">
+                        <input type="password" name="password" id="password" class="form-control" />
+                        <label class="form-label" for="password">Password</label>
+                    </div>
+
+                    <!-- Name input -->
+                    <div class="form-outline mb-4">
+                        <div class="form-outline">
+                            <input type="text" name="name" id="name" class="form-control" />
+                            <label class="form-label" for="name">Your name</label>
                         </div>
                     </div>
-                </div>
-            </form>
+
+                    <!-- Email input -->
+                    <div class="form-outline mb-4">
+                        <input type="email" name="email" id="email" class="form-control" />
+                        <label class="form-label" for="email">Email address</label>
+                    </div>
+
+                    <!-- Gender input -->
+                    <div class="form-outline mb-4">
+                        <label class="form-label" for="gender">Gender</label>
+                        <select name="gender" id="gender" class="form-select">
+                            <option selected>Select one</option>
+                            <option value="Male">Male</option>
+                            <option value="Famale">Famale</option>
+                        </select>
+                    </div>
+
+                    <!-- Terms and Condition -->
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                        <label class="form-check-label" for="exampleCheck1">I agree to the <a href="#0"
+                                class="text-primary">Terms & Conditions</a></label>
+                    </div>
+
+                    <!-- Submit button -->
+                    <button type="submit" name="sign-up" class="btn btn-primary btn-block mb-4">
+                        Sign up
+                    </button>
+
+                    <div class="text-center">
+                        <p>Already have an Account? <a href="login.php">Sign In!</a></p>
+                    </div>
+                </form>
+            </div>
             <!-- form register end -->
         </div>
+        <!-- container register start -->
     </div>
     <!-- register end -->
     <!-- js -->

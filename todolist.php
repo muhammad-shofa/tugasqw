@@ -1,3 +1,33 @@
+<?php
+include "service/connection.php";
+session_start();
+
+// $task = null;
+// $count_task = null;
+
+// if (isset($_POST["add"])) {
+//     $task = htmlspecialchars($_POST["task"]);
+//     $_SESSION["count_task"] = "task" . $count_task;
+//     $count_task = 0;
+// }
+
+
+// 
+
+// Inisialisasi daftar tugas
+$tasks = [];
+
+// Memeriksa jika tombol "Add" diklik
+if (isset($_POST['add'])) {
+    // Mendapatkan nilai dari input
+    $task = $_POST['task'];
+
+    // Menambahkan tugas ke dalam daftar
+    $tasks[] = $task;
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,17 +63,20 @@
                     <div class="modal-dialog">
                         <form action="todolist.php" method="POST">
                             <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="modalAddtaskLabel">Add Task</h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    Tes
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary">Add</button>
-                                </div>
+                                <form action="todolist.php" method="POST">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="modalAddtaskLabel">Add Task</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <label for="task" class="form-label">Add new task</label>
+                                        <input type="text" name="task" class="form-control" id="task">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" name="add" class="btn btn-primary">Add</button>
+                                    </div>
+                                </form>
                             </div>
                         </form>
                     </div>
@@ -51,34 +84,22 @@
                 <!-- Modal Add Task End -->
                 <!-- List Task Start -->
                 <div class="list-task">
-                    <div class="input-group mb-3">
-                        <div class="input-group-text">
-                            <input class="form-check-input mt-0" type="checkbox" value=""
-                                aria-label="Checkbox for following text input">
+                    <?php foreach ($tasks as $task) { ?>
+                        <div class="input-group mb-3">
+                            <div class="input-group-text">
+                                <input class="form-check-input mt-0" type="checkbox"
+                                    aria-label="Checkbox for following text input">
+                            </div>
+                            <input type="text" class="form-control" aria-label="Text input with checkbox"
+                                value="<?= $task ?>" readonly>
+                            <div class="input-group-text bg-primary">
+                                <img src="./assets/icon/pen-solid.svg" alt="pen icon">
+                            </div>
+                            <div class="input-group-text bg-danger">
+                                <img src="./assets/icon/trash-solid.svg" alt="trash icon">
+                            </div>
                         </div>
-                        <input type="text" class="form-control" aria-label="Text input with checkbox" value="Tes"
-                            readonly>
-                        <div class="input-group-text bg-primary">
-                            <img src="./assets/icon/pen-solid.svg" alt="pen icon">
-                        </div>
-                        <div class="input-group-text bg-danger">
-                            <img src="./assets/icon/trash-solid.svg" alt="trash icon">
-                        </div>
-                    </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-text">
-                            <input class="form-check-input mt-0" type="checkbox" value=""
-                                aria-label="Checkbox for following text input">
-                        </div>
-                        <input type="text" class="form-control" aria-label="Text input with checkbox" value="Tes"
-                            readonly>
-                        <div class="input-group-text bg-primary">
-                            <img src="./assets/icon/pen-solid.svg" alt="pen icon">
-                        </div>
-                        <div class="input-group-text bg-danger">
-                            <img src="./assets/icon/trash-solid.svg" alt="trash icon">
-                        </div>
-                    </div>
+                    <?php } ?>
                 </div>
                 <!-- List Task End -->
             </div>
