@@ -21,10 +21,9 @@ if (isset($_POST['logout'])) {
                     <a class="nav-link" href="todolist.php">To Do List</a>
                 </li>
             </ul>
-            <span class="navbar-text d-flex gap-2 justify-content-center align-items-center">
+            <span class="navbar-text d-flex gap-2 align-items-center">
                 <?php
-                $islogin = isset($_SESSION['is_login']);
-                if (!$islogin) { ?>
+                if (!isset($_SESSION['is_login'])) { ?>
                     <a class="nav-link p-2 rounded border bg-primary text-light" href="signin.php">Sign in</a>
                     <a class="nav-link" href="signup.php">Sign Up</a>
                 <?php } else { ?>

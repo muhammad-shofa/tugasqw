@@ -20,6 +20,7 @@ if (isset($_POST['sign-in'])) {
     $result = $connected->query($sql_signin);
     if ($result->num_rows > 0) {
         $data_user = $result->fetch_assoc();
+        $_SESSION["user_id"] = $data_user["user_id"];
         $_SESSION["username"] = $data_user["username"];
         $_SESSION['is_login'] = true;
         header("location: todolist.php");

@@ -1,31 +1,33 @@
 <?php
 include "service/connection.php";
+include "service/select.php";
+include "service/insert.php";
+include "service/delete.php";
 session_start();
 
-// $task = null;
-// $count_task = null;
+$message_add_task = "";
 
-// if (isset($_POST["add"])) {
-//     $task = htmlspecialchars($_POST["task"]);
-//     $_SESSION["count_task"] = "task" . $count_task;
-//     $count_task = 0;
-// }
+// insert task into db
+if (isset($_POST["addtask"])) {
+    $value_task = htmlspecialchars($_POST['task']);
 
-
-// 
-
-// Inisialisasi daftar tugas
-$tasks = [];
-
-// Memeriksa jika tombol "Add" diklik
-if (isset($_POST['add'])) {
-    // Mendapatkan nilai dari input
-    $task = $_POST['task'];
-
-    // Menambahkan tugas ke dalam daftar
-    $tasks[] = $task;
+    $sql_add_task = $insert->selectTable($table_name = "task", $condition = "(user_id, value_task) VALUES ('{$_SESSION["user_id"]}', '$value_task')");
+    $result_add_task = $connected->query($sql_add_task);
+    $result_add_task ? $message_add_task = "Task successfull added" : $message_add_task = "Failed";
 }
 
+// select task
+if (isset($_SESSION['is_login'])) {
+    $sql_select_task = $select->selectTable($table_name = "task", $fields = "*", $condition = "WHERE user_id={$_SESSION['user_id']}");
+    $result_select_task = $connected->query($sql_select_task);
+}
+
+// edit task
+
+// delete task
+if (isset($_POST['delete'])) {
+    $sql_delete_task = $delete->select_table($table_name = "task", $condition = "WHERE");
+}
 ?>
 
 <!DOCTYPE html>
@@ -48,7 +50,10 @@ if (isset($_POST['add'])) {
         <!-- navbar start -->
         <?php include "layout/navbar.php" ?>
         <!-- navbar end -->
-        <div class="container-task p-5 mx-auto my-3 d-flex justify-content-center rounded-3 shadow">
+        <div id="liveAlertPlaceholder">
+            <?= $message_add_task ?>
+        </div>
+        <div class="container-task p-3 mx-auto my-3 d-flex justify-content-center rounded-3 shadow">
             <div class="card-task p-4 border rounded-3 shadow-sm">
                 <h4>To Do List</h4>
                 <!-- Trigger Modal Add Task Start -->
@@ -61,45 +66,52 @@ if (isset($_POST['add'])) {
                 <div class="modal fade" id="modalAddtask" tabindex="-1" aria-labelledby="modalAddtaskLabel"
                     aria-hidden="true">
                     <div class="modal-dialog">
-                        <form action="todolist.php" method="POST">
+                        <form action="<?php $_SERVER['PHP_SELF'] ?>" method="POST">
                             <div class="modal-content">
-                                <form action="todolist.php" method="POST">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="modalAddtaskLabel">Add Task</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <label for="task" class="form-label">Add new task</label>
-                                        <input type="text" name="task" class="form-control" id="task">
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="submit" name="add" class="btn btn-primary">Add</button>
-                                    </div>
-                                </form>
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="modalAddtaskLabel">Add Task</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <label for="task" class="form-label">Add new task</label>
+                                    <input type="text" name="task" class="form-control" id="task" required>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" name="addtask" class="btn btn-primary">Add</button>
+                                </div>
                             </div>
                         </form>
                     </div>
                 </div>
                 <!-- Modal Add Task End -->
                 <!-- List Task Start -->
-                <div class="list-task">
-                    <?php foreach ($tasks as $task) { ?>
-                        <div class="input-group mb-3">
-                            <div class="input-group-text">
-                                <input class="form-check-input mt-0" type="checkbox"
-                                    aria-label="Checkbox for following text input">
+                <div id="input-container">
+                    <form action="<?php $_SERVER['PHP_SELF'] ?>" method="POST">
+                        <?php $counter = 1;
+                        while (isset($result_select_task) ? $data_task = $result_select_task->fetch_assoc() : false) { ?>
+                            <div class="list-task">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-text">
+                                        <input class="form-check-input mt-0" id="checkbox" type="checkbox"
+                                            aria-label="Checkbox for following text input">
+                                    </div>
+                                    <input type="text" class="form-control" id="textTask"
+                                        aria-label="Text input with checkbox" value="<?= $data_task['value_task'] ?>"
+                                        readonly>
+                                    <div class="input-group-text bg-primary">
+                                        <img src="./assets/icon/pen-solid.svg" alt="pen icon">
+                                    </div>
+                                    <div class="input-group-text bg-danger">
+                                        <input class="bg-danger" type="submit" name="delete-task" value="">
+                                        <img src="./assets/icon/trash-solid.svg" alt="trash icon">
+                                        </input>
+                                    </div>
+                                </div>
                             </div>
-                            <input type="text" class="form-control" aria-label="Text input with checkbox"
-                                value="<?= $task ?>" readonly>
-                            <div class="input-group-text bg-primary">
-                                <img src="./assets/icon/pen-solid.svg" alt="pen icon">
-                            </div>
-                            <div class="input-group-text bg-danger">
-                                <img src="./assets/icon/trash-solid.svg" alt="trash icon">
-                            </div>
-                        </div>
-                    <?php } ?>
+                            <?php $counter++;
+                        } ?>
+                    </form>
                 </div>
                 <!-- List Task End -->
             </div>
@@ -107,6 +119,7 @@ if (isset($_POST['add'])) {
     </div>
     <!-- hero end -->
     <!-- js -->
+    <script src="assets/js/main.js"></script>
     <!-- bootstrap -->
     <script src=" https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"

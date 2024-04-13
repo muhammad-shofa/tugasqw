@@ -21,7 +21,7 @@ if (isset($_POST["sign-up"])) {
     $sql_signup = $insert->selectTable($table_name = "users", $condition = "(username, password, name, email, gender) VALUES ('$username', '$hash_password', '$name', '$email', '$gender')");
     $result = $connected->query($sql_signup);
     if ($result) {
-        $status_signup = "<b>successfully, please <a href='login.php'>Sign In!</a></b>";
+        $status_signup = "<b>successfully, please <a href='signin.php'>Sign In!</a></b>";
     }
 }
 
