@@ -93,10 +93,11 @@ if (isset($_POST['delete'])) {
                             <div class="list-task">
                                 <div class="input-group mb-3">
                                     <div class="input-group-text">
-                                        <input class="form-check-input mt-0" id="checkbox" type="checkbox"
-                                            aria-label="Checkbox for following text input">
+                                        <input class="form-check-input mt-0" id="checkbox-<?= $counter ?>" type="checkbox"
+                                            aria-label="Checkbox for following text input"
+                                            onchange="toggleChecked(<?= $counter ?>)">
                                     </div>
-                                    <input type="text" class="form-control" id="textTask"
+                                    <input type="text" class="form-control" id="textTask-<?= $counter ?>"
                                         aria-label="Text input with checkbox" value="<?= $data_task['value_task'] ?>"
                                         readonly>
                                     <div class="input-group-text bg-primary">
@@ -109,11 +110,23 @@ if (isset($_POST['delete'])) {
                                     </div>
                                 </div>
                             </div>
+
                             <?php $counter++;
                         } ?>
                     </form>
                 </div>
                 <!-- List Task End -->
+                <script>
+                    function toggleChecked(counter) {
+                        const checkbox = document.getElementById('checkbox-' + counter);
+                        const textInput = document.getElementById('textTask-' + counter);
+                        if (checkbox.checked) {
+                            textInput.style.textDecoration = "line-through";
+                        } else {
+                            textInput.style.textDecoration = "none";
+                        }
+                    }
+                </script>
             </div>
         </div>
     </div>
