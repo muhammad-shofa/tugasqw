@@ -18,7 +18,7 @@ if (isset($_POST["addtask"])) {
 
 // select task
 if (isset($_SESSION['is_login'])) {
-    $sql_select_task = $select->selectTable($table_name = "task", $fields = "*", $condition = "WHERE user_id={$_SESSION['user_id']}");
+    $sql_select_task = $select->selectTable($table_name = "task", $fields = "*", $condition = "WHERE user_id={$_SESSION['user_id']} ORDER BY task_id DESC");
     $result_select_task = $connected->query($sql_select_task);
 }
 
@@ -104,13 +104,12 @@ if (isset($_POST['delete'])) {
                                         <img src="./assets/icon/pen-solid.svg" alt="pen icon">
                                     </div>
                                     <div class="input-group-text bg-danger">
-                                        <input class="bg-danger" type="submit" name="delete-task" value="">
-                                        <img src="./assets/icon/trash-solid.svg" alt="trash icon">
-                                        </input>
+                                        <button class="p-0 border-0 bg-danger" type="submit" name="delete-task" value="">
+                                            <img src="./assets/icon/trash-solid.svg" alt="trash icon">
+                                        </button>
                                     </div>
                                 </div>
                             </div>
-
                             <?php $counter++;
                         } ?>
                     </form>
