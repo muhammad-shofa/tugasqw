@@ -9,5 +9,3 @@ class insert
 }
 
 $insert = new insert();
-
-?>

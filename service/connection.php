@@ -25,5 +25,3 @@ class connection
 
 $db = new connection();
 $connected = $db->connected();
-
-?>

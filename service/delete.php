@@ -9,4 +9,3 @@ class delete
 }
 
 $delete = new delete();
-?>

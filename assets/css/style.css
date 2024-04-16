@@ -41,10 +41,13 @@ h4 {
   background-color: var(--secondary);
   color: var(--primary);
 }
-
+/* belum ngefek */
+.container-task {
+  min-height: 550px;
+}
 .card-task {
-  min-width: 250px;
-  max-width: 400px;
+  width: 375px;
+  /* max-width: 400px; */
   min-height: 250px;
 }
 .card-task p {
