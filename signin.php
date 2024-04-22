@@ -73,8 +73,8 @@ if (isset($_POST['sign-in'])) {
 
                     <!-- Terms and Condition -->
                     <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                        <label class="form-check-label" for="exampleCheck1">I agree to the <a href="#0"
+                        <input type="checkbox" class="form-check-input" id="terms&conditions" required>
+                        <label class="form-check-label" for="terms&conditions">I agree to the <a href="#0"
                                 class="text-primary">Terms & Conditions</a></label>
                     </div>
 

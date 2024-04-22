@@ -2,7 +2,7 @@
 
 class insert
 {
-    function selectTable($table_name, $condition = "")
+    function selectTable($table_name, $condition = "") : string
     {
         return "INSERT INTO $table_name $condition";
     }

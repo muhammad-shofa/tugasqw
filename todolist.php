@@ -13,10 +13,15 @@ $message_delete_task = "";
 // insert task into db
 if (isset($_POST["addtask"])) {
     $value_task = htmlspecialchars($_POST['task']);
+    // $date_task = date("");
 
-    $sql_add_task = $insert->selectTable($table_name = "task", $condition = "(user_id, value_task) VALUES ('{$_SESSION["user_id"]}', '$value_task')");
-    $result_add_task = $connected->query($sql_add_task);
-    $result_add_task ? $message_add_task = "Task successfull added" : $message_add_task = "Failed";
+    if (isset($_SESSION['is_login'])) {
+        $sql_add_task = $insert->selectTable($table_name = "task", $condition = "(user_id, value_task) VALUES ('{$_SESSION["user_id"]}', '$value_task')");
+        $result_add_task = $connected->query($sql_add_task);
+        $result_add_task ? $message_add_task = "Task successfull added" : $message_add_task = "Failed";
+    } else {
+        $_SESSION['session_task'] = $value_task;
+    }
 }
 
 // select task
@@ -28,7 +33,7 @@ if (isset($_SESSION['is_login'])) {
 // edit task
 if (isset($_POST['editTask'])) {
     $target_task = $_POST["task-id"];
-    $edited_task = $_POST['edited-task'];
+    $edited_task = htmlspecialchars($_POST['edited-task']);
     $sql_edit_task = $update->selectTable($table_name = "task", $condition = "value_task = '$edited_task' WHERE task_id = $target_task");
     $result_edit_task = $connected->query($sql_edit_task);
     $result_edit_task ? $message_edit_task = "Task edited" : false;
@@ -70,14 +75,46 @@ if (isset($_POST['deleteTask'])) {
         </div>
         <div class="container-task p-3 mx-auto my-3 d-flex justify-content-center rounded-3 shadow">
             <!-- card task start -->
-            <div class="card-task p-4 border-5 rounded-3 shadow-sm">
+            <div class="card-task p-4 border-5 rounded-3 shadow">
                 <h4>To Do List</h4>
                 <!-- Trigger Modal Add Task Start -->
-                <div class="add-task d-flex gap-1" data-bs-toggle="modal" data-bs-target="#modalAddtask">
-                    <img src="assets/icon/plus-solid.svg" alt="plus icon">
-                    <p>New Task</p>
-                </div>
+                <?php if (isset($_SESSION['session_task']) && !isset($_SESSION['is_login'])) { ?>
+                    <div class="add-task d-flex gap-1" data-bs-toggle="modal" data-bs-target="#modalLoginFirst">
+                        <img src="assets/icon/plus-solid.svg" alt="plus icon">
+                        <p>New Task</p>
+                    </div>
+
+                <?php } else { ?>
+                    <div class="add-task d-flex gap-1" data-bs-toggle="modal" data-bs-target="#modalAddtask">
+                        <img src="assets/icon/plus-solid.svg" alt="plus icon">
+                        <p>New Task</p>
+                    </div>
+                <?php } ?>
                 <!-- Trigger Modal Add Task Start -->
+
+                <!-- Modal Login First Start -->
+                <div class="modal fade" id="modalLoginFirst" tabindex="-1" aria-labelledby="modalLoginFirst"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <form action="<?php $_SERVER['PHP_SELF'] ?>" method="POST">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="modalLoginFirst">Login First</h1>
+                                </div>
+                                <div class="modal-body">
+                                    <p class="text-dark">Please login first for better experience!</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <a class="nav-link p-2 rounded border bg-primary text-light" href="signin.php">Sign
+                                        in</a>
+                                    <a class="nav-link" href="signup.php">Sign Up</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- Modal Login first End -->
+
                 <!-- Modal Add Task Start -->
                 <div class="modal fade" id="modalAddtask" tabindex="-1" aria-labelledby="modalAddtaskLabel"
                     aria-hidden="true">
@@ -88,8 +125,8 @@ if (isset($_POST['deleteTask'])) {
                                     <h1 class="modal-title fs-5" id="modalAddtaskLabel">Add Task</h1>
                                 </div>
                                 <div class="modal-body">
-                                    <label for="task" class="form-label">Add new task</label>
-                                    <input type="text" name="task" class="form-control" id="task" required>
+                                    <input type="text" name="task" class="form-control" id="task"
+                                        placeholder="Input new task here" required>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
@@ -101,11 +138,17 @@ if (isset($_POST['deleteTask'])) {
                     </div>
                 </div>
                 <!-- Modal Add Task End -->
+
                 <!-- List Task Start -->
-                <div id="input-container">
-                    <form action="<?php $_SERVER['PHP_SELF'] ?>" method="POST">
-                        <?php $counter = 1;
-                        while (isset($result_select_task) ? $data_task = $result_select_task->fetch_assoc() : false) { ?>
+                <div class="container-list-task">
+                    <?php #if () { ?>
+                    <p class="text-dark fw-bold">Today</p>
+                    <?php #} ?>
+                    <?php
+                    if (isset($result_select_task) && isset($_SESSION['is_login'])) {
+
+                        $counter = 1;
+                        while ($data_task = $result_select_task->fetch_assoc()) { ?>
                             <div class="list-task">
                                 <div class="input-group mb-3">
                                     <div class="input-group-text">
@@ -136,8 +179,8 @@ if (isset($_POST['deleteTask'])) {
                                     <form action="<?php $_SERVER['PHP_SELF'] ?>" method="POST">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h1 class="modal-title fs-5"
-                                                    id="modal-edit-<?= $data_task['task_id'] ?>Label">Edit Task</h1>
+                                                <h1 class="modal-title fs-5" id="modal-edit-<?= $data_task['task_id'] ?>Label">
+                                                    Edit Task</h1>
                                             </div>
                                             <div class="modal-body">
                                                 <div class="input-group mb-3">
@@ -182,28 +225,58 @@ if (isset($_POST['deleteTask'])) {
                             </div>
                             <!-- Modal Delete Task End -->
                             <?php $counter++;
-                        } ?>
-                    </form>
+                        }
+                    } else if (isset($_SESSION['session_task'])) { ?>
+                            <!-- List Task Session Start -->
+                            <div class="list-task">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-text">
+                                        <input class="form-check-input mt-0" id="checkbox-<?= $counter ?>" type="checkbox"
+                                            aria-label="Checkbox for following text input"
+                                            onchange="toggleChecked(<?= $counter ?>)">
+                                    </div>
+                                    <input type="text" class="form-control" id="textTask-<?= $counter ?>"
+                                        aria-label="Text input with checkbox" name="task-value"
+                                        value="<?= $_SESSION['session_task'] ?>" readonly>
+                                    <!-- trigger edit task -->
+                                    <div class="input-group-text bg-primary" data-bs-toggle="modal" data-bs-target="#modalLoginFirst">
+                                        <img src="./assets/icon/pen-solid.svg" alt="pen icon">
+                                    </div>
+                                    <!-- trigger delete task -->
+                                    <div class="input-group-text bg-danger" data-bs-toggle="modal" data-bs-target="#modalLoginFirst">
+                                        <img src="./assets/icon/trash-solid.svg" alt="trash icon">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- List Task Session End -->
+                        <?php
+                    } else { ?>
+                            <p class="text-center text-dark pt-5">You not have a task</p>
+                        <?php
+                    } ?>
                 </div>
                 <!-- List Task End -->
-                <script>
-                    function toggleChecked(counter) {
-                        const checkbox = document.getElementById('checkbox-' + counter);
-                        const textInput = document.getElementById('textTask-' + counter);
-                        if (checkbox.checked) {
-                            textInput.style.textDecoration = "line-through";
-                        } else {
-                            textInput.style.textDecoration = "none";
-                        }
-                    }
-                </script>
+
             </div>
             <!-- card task end -->
         </div>
     </div>
     <!-- hero end -->
     <!-- js -->
-    <script src="assets/js/main.js"></script>
+    <script>
+        function toggleChecked(counter) {
+            const checkbox = document.getElementById('checkbox-' + counter);
+            const textInput = document.getElementById('textTask-' + counter);
+            if (checkbox.checked) {
+                textInput.style.textDecoration = "line-through";
+                textInput.style.color = "grey";
+            } else {
+                textInput.style.textDecoration = "none";
+                textInput.style.color = "";
+            }
+        }
+    </script>
+    <!-- <script src="assets/js/main.js"></script> -->
     <!-- bootstrap -->
     <script src=" https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"

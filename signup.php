@@ -6,7 +6,7 @@ include "service/insert.php";
 $status_signup = "";
 
 // check login
-isset($_SESSION['is_login']) ? header("location: index.php") : "";
+isset($_SESSION['is_login']) ? header("location: index.php") : false;
 
 // insert data register
 if (isset($_POST["sign-up"])) {
@@ -59,27 +59,27 @@ if (isset($_POST["sign-up"])) {
                 <form action="signup.php" method="POST">
                     <!-- Username input -->
                     <div class="form-outline mb-4">
-                        <input type="text" name="username" id="username" class="form-control" />
+                        <input type="text" name="username" id="username" class="form-control" required />
                         <label class="form-label" for="username">Username</label>
                     </div>
 
                     <!-- Password input -->
                     <div class="form-outline mb-4">
-                        <input type="password" name="password" id="password" class="form-control" />
+                        <input type="password" name="password" id="password" class="form-control" required />
                         <label class="form-label" for="password">Password</label>
                     </div>
 
                     <!-- Name input -->
                     <div class="form-outline mb-4">
                         <div class="form-outline">
-                            <input type="text" name="name" id="name" class="form-control" />
+                            <input type="text" name="name" id="name" class="form-control" required />
                             <label class="form-label" for="name">Your name</label>
                         </div>
                     </div>
 
                     <!-- Email input -->
                     <div class="form-outline mb-4">
-                        <input type="email" name="email" id="email" class="form-control" />
+                        <input type="email" name="email" id="email" class="form-control" required />
                         <label class="form-label" for="email">Email address</label>
                     </div>
 
@@ -87,7 +87,6 @@ if (isset($_POST["sign-up"])) {
                     <div class="form-outline mb-4">
                         <label class="form-label" for="gender">Gender</label>
                         <select name="gender" id="gender" class="form-select">
-                            <option selected>Select one</option>
                             <option value="Male">Male</option>
                             <option value="Famale">Famale</option>
                         </select>
@@ -95,8 +94,8 @@ if (isset($_POST["sign-up"])) {
 
                     <!-- Terms and Condition -->
                     <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                        <label class="form-check-label" for="exampleCheck1">I agree to the <a href="#0"
+                        <input type="checkbox" class="form-check-input" id="terms&conditions" required>
+                        <label class="form-check-label" for="terms&conditions">I agree to the <a href="#0"
                                 class="text-primary">Terms & Conditions</a></label>
                     </div>
 

@@ -2,7 +2,7 @@
 
 class update
 {
-    function selectTable($table_name, $condition)
+    function selectTable($table_name, $condition) : string
     {
         return "UPDATE $table_name SET $condition";
     }

@@ -10,9 +10,16 @@
   --accent-blue: #0d6efd;
 }
 
+@media (max-width: 991px) {
+  .sidebar {
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(5px);
+  }
+}
+
 /* hero */
 .todolist-hero {
-  height: 100vh;
+  min-height: 100vh;
   background-color: var(--primary);
 }
 
@@ -43,13 +50,17 @@ h4 {
 }
 /* belum ngefek */
 .container-task {
-  min-height: 550px;
+  min-height: 600px;
+  height: max-content;
 }
 .card-task {
   width: 375px;
-  /* max-width: 400px; */
-  min-height: 250px;
+  min-height: 300px;
+  height: max-content;
 }
+/* .card-task::-webkit-scrollbar {
+  display: none;
+} */
 .card-task p {
   color: var(--accent-blue);
 }
